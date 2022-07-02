@@ -18,27 +18,29 @@ namespace hp_api.Services
             return _iceCreams.Where(x => x.Portions > 0).Select(x => x.Name).ToList();
         }
 
-        public void GetPortion(string name, int portions = 1)
+        public IceCream GetPortion(IceCream iceCream)
         {
-            var iceCream = GetIceCreamFromStock(name);
-            SubtractPortion(iceCream, portions);
+            var iceCreamFromStock = GetIceCreamFromStock(iceCream.Name);
+            SubtractPortion(iceCream, iceCream.Portions);
+            return iceCream;
         }
 
         public IceCream Create(IceCream iceCream)
         {
             if (_iceCreams.Find(x => x.Name == iceCream.Name) != null)
             {
-                var message = $"A ice cream with that name  {iceCream.Name} already exists";
+                var message = $"A ice cream with that name '{iceCream.Name}' already exists";
                 ThrowValidationError(message);
             }
             _iceCreams.Add(iceCream);
             return iceCream;
         }
 
-        public void AddMore(IceCream iceCream)
+        public IceCream AddMore(IceCream iceCream)
         {
             var iceCreamInStock = GetIceCreamFromStock(iceCream.Name);
             iceCreamInStock.Portions += iceCream.Portions;
+            return iceCreamInStock;
         }
 
         private IceCream GetIceCreamFromStock(string name)
@@ -46,7 +48,7 @@ namespace hp_api.Services
             var iceCreamInStock = _iceCreams.Find(x => x.Name == name);
             if (iceCreamInStock == null)
             {
-                var message = $"A ice cream with that name {name} does not exists";
+                var message = $"A ice cream with that name '{name}' does not exists";
                 ThrowValidationError(message);
             }
             return iceCreamInStock!;

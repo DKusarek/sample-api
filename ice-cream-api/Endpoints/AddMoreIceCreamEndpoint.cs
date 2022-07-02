@@ -7,18 +7,18 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace hp_api.Endpoints
 {
-    [HttpPost("add-new"), AllowAnonymous] // TODO add authorization
-    public class AddNewIceCreamEndpoint: Endpoint<IceCreamRequest, AddNewIceCreamResponse, AddNewToResponseMapper>
+    [HttpPost("add-more"), AllowAnonymous]
+    public class AddMoreIceCreamEndpoint: Endpoint<IceCreamRequest, AddMoreIceCreamResponse, AddMoreToReponseMapper>
     {
         private readonly IIceCreamService _iceCreamService;
-        public AddNewIceCreamEndpoint(IIceCreamService iceCreamService)
+        public AddMoreIceCreamEndpoint(IIceCreamService iceCreamService)
         {
             _iceCreamService = iceCreamService;
         }
 
         public override async Task HandleAsync(IceCreamRequest req, CancellationToken ct)
         {
-            var response = _iceCreamService.Create(Map.ToEntity(req));
+            var response = _iceCreamService.AddMore(Map.ToEntity(req));
             await SendAsync(Map.FromEntity(response), cancellation: ct);
         }
     }

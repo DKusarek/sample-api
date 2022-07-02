@@ -2,7 +2,7 @@
 
 namespace hp_api.Contracts.Requests
 {
-    public class AddNewIceCreamRequest
+    public class IceCreamRequest
     {
         public string Name { get; set; } = default!;
         public double Weight { get; set; } = default!;
